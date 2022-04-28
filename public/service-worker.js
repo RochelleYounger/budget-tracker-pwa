@@ -47,10 +47,10 @@ self.addEventListener('fetch', function (event) {
         console.log('responding with cache : ' + event.request.url)
         return request;
       } else {
-        console.log('file is not cached, fetching : ' + e.request.url)
-        return fetch(e.request)
+        console.log('file is not cached, fetching : ' + event.request.url)
+        return fetch(event.request)
       }
-      // return request || fetch(e.request) --------> play with this later
+      // return request || fetch(event.request) --------> play with this later
     })
   )
 });
