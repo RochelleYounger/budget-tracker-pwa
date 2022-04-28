@@ -1,6 +1,6 @@
-const APP_PREFIX = 'Budget_Tracker-';     
-const VERSION = 'version_01';
-const CACHE_NAME = APP_PREFIX + VERSION;
+const APP_NAME = 'Budget_Tracker-';
+const VERSION = 'v_01';
+const CACHE_NAME = APP_NAME + VERSION;
 const FILES_TO_CACHE = [
   './index.html',
   './js/idb.js',
@@ -17,3 +17,6 @@ self.addEventListener('install', function (event) {
     })
   )
 });
+
+
+// for future reference, inside the manifest.json the "type" property of the icon object should be 'image/png'  NOT  'image.png'!!!!!!!!!!
