@@ -32,11 +32,47 @@ request.onerror = function (event) {
 
 function saveRecord(submission) {
   // create new transaction with db permitting read and write
-  const transaction = db.transaction(['new_transaction'], 'readwrite');
+  const connect = db.transaction(['new_transaction'], 'readwrite');
 
   // access the "table" (new_transaction)
-  const budgetObjectStore = transaction.objectStore('new_transaction');
+  const transactionObjStore = connect.objectStore('new_transaction');
 
   // save submission to db
-  budgetObjectStore.add(submission);
+  transactionObjStore.add(submission);
 };
+
+function uploadOfflineTransactions() {
+  const connect = db.transaction(['new_transaction'], 'readwrite');
+
+  const transactionObjStore = connect.objectStore('new_transaction');
+
+  const fetchAll = transactionObjStore.getAll();
+  fetchAll.onsuccess = function () {
+    if(fetchAll.result.length > 0) {
+      fetch('/api/transaction', {
+        method: 'POST',
+        body: JSON.stringify(fetchAll.result),
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res => res.json())
+        .then(serverRes => {
+          if (serverRes.message) {
+            throw new Error(serverRes);
+          }
+          const connect = db.transaction(['new_transaction'], 'readwrite');
+          const transactionObjStore = connect.objectStore('new_transaction');
+          transactionObjStore.clear();
+
+          console.log('successfully submitted transactions');
+        })
+        .catch( err => {
+          console.log(err);
+        });
+    }
+  };
+}
+
+window.addEventListener('online', uploadOfflineTransactions);
