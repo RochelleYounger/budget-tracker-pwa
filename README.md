@@ -19,7 +19,7 @@ Keep track of your money from anywhere. The application is a progressive web app
 
 ## Website
 
-[Budget Tracker](https://stormy-ravine-87920.herokuapp.com)
+[Budget Tracker](https://obscure-chamber-33178.herokuapp.com)
 
 
 ## Installation
